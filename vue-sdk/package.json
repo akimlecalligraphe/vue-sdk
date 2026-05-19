@@ -1,0 +1,48 @@
+{
+  "name": "vue-sdk",
+  "version": "0.1.0",
+  "description": "A Vue 3 SDK for building dynamic dashboards with widgets and templates",
+  "type": "module",
+  "main": "./dist/vue-sdk.umd.cjs",
+  "module": "./dist/vue-sdk.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-sdk.js",
+      "require": "./dist/vue-sdk.umd.cjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "vue-tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "dashboard",
+    "widgets",
+    "charts",
+    "sdk"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@iconify/vue": "^5.0.1",
+    "ajv": "^8.17.1",
+    "chart.js": "^4.4.9",
+    "vue-chartjs": "^5.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.0",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^5.0.1",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.10"
+  }
+}
