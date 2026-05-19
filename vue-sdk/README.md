@@ -280,7 +280,7 @@ validateWidgetConfig({ id: 'k1', type: 'kpi', data: { value: 42 } })
 
 ## Documentation complète
 
-👉 **[Voir la documentation interactive](https://ton-site-demo.vercel.app)**
+👉 **[Voir la documentation interactive](https://dyndash-sdk-vue.vercel.app)**
 
 ---
 
