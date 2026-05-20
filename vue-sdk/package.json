@@ -1,5 +1,5 @@
 {
-  "name": "vue-sdk",
+  "name": "@krim24/vue-sdk",
   "version": "0.1.0",
   "description": "A Vue 3 SDK for building dynamic dashboards with widgets and templates",
   "type": "module",

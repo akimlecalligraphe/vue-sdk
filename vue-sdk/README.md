@@ -1,9 +1,9 @@
-# vue-sdk
+# @krim24/vue-sdk
 
 > Librairie Vue 3 pour construire des dashboards dynamiques avec des widgets configurables.
 
-[![npm version](https://img.shields.io/npm/v/vue-sdk)](https://www.npmjs.com/package/vue-sdk)
-[![license](https://img.shields.io/npm/l/vue-sdk)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@krim24/vue-sdk)](https://www.npmjs.com/package/@krim24/vue-sdk)
+[![license](https://img.shields.io/npm/l/@krim24/vue-sdk)](./LICENSE)
 
 ## Widgets disponibles
 
@@ -14,7 +14,7 @@
 ## Installation
 
 ```bash
-npm install vue-sdk vue chart.js vue-chartjs ajv
+npm install @krim24/vue-sdk vue chart.js vue-chartjs ajv
 ```
 
 ### Dépendances requises
@@ -26,6 +26,8 @@ npm install vue-sdk vue chart.js vue-chartjs ajv
 | `vue-chartjs` | `^5` |
 | `ajv` | `^8` |
 
+> `vue-router@^4` est optionnel, nécessaire uniquement pour les applications multi-pages.
+
 ---
 
 ## Démarrage rapide
@@ -35,7 +37,7 @@ npm install vue-sdk vue chart.js vue-chartjs ajv
 ```ts
 // main.ts
 import { createApp } from 'vue'
-import { VueSdk } from 'vue-sdk'
+import { VueSdk } from '@krim24/vue-sdk'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -49,7 +51,7 @@ Après installation, tous les widgets sont disponibles sans import supplémentai
 
 ```vue
 <script setup>
-import { KPIWidget } from 'vue-sdk'
+import { KPIWidget } from '@krim24/vue-sdk'
 </script>
 
 <template>
@@ -65,7 +67,7 @@ import { KPIWidget } from 'vue-sdk'
 Définissez un dashboard entier en JSON, sans HTML :
 
 ```ts
-import { Dashboard, parseDashboardConfig } from 'vue-sdk'
+import { Dashboard, parseDashboardConfig } from '@krim24/vue-sdk'
 
 const config = parseDashboardConfig({
   id: 'mon-dashboard',
@@ -240,7 +242,7 @@ Affiche une carte avec des marqueurs dont la taille est proportionnelle à la va
 Connectez vos widgets à de vraies APIs :
 
 ```ts
-import { registerDataSource, getData } from 'vue-sdk'
+import { registerDataSource, getData } from '@krim24/vue-sdk'
 
 registerDataSource({
   id: 'api-ventes',
@@ -261,7 +263,7 @@ const data = await getData('api-ventes')
 Validez vos configurations avec des messages d'erreur clairs :
 
 ```ts
-import { validate, assertValid, validateWidgetConfig } from 'vue-sdk'
+import { validate, assertValid, validateWidgetConfig } from '@krim24/vue-sdk'
 
 // Vérification simple
 const result = validate('chart', maConfig)
