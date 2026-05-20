@@ -97,9 +97,9 @@
             <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
             <tbody>
               <tr><td><code>label</code></td><td><code>string</code></td><td>Titre du graphique</td></tr>
-              <tr><td><code>type</code></td><td><code>'bar' | 'line' | 'pie' | 'doughnut' | 'radar' | 'polarArea'</code></td><td>Type de graphique (obligatoire)</td></tr>
-              <tr><td><code>xKey</code></td><td><code>string</code></td><td>Clé utilisée pour l'axe X</td></tr>
-              <tr><td><code>yKey</code></td><td><code>string</code></td><td>Clé utilisée pour l'axe Y</td></tr>
+              <tr><td><code>chartType</code></td><td><code>'bar' | 'line' | 'pie' | 'doughnut' | 'radar' | 'polarArea'</code></td><td>Type de graphique (obligatoire)</td></tr>
+              <tr><td><code>xLabel</code></td><td><code>string</code></td><td>Label de l'axe X</td></tr>
+              <tr><td><code>yLabel</code></td><td><code>string</code></td><td>Label de l'axe Y</td></tr>
             </tbody>
           </table>
           <p style="margin-top:1rem"><strong><code>data</code></strong> (tableau d'objets, obligatoire)</p>
@@ -330,7 +330,7 @@
               <tr><td><code>key</code></td><td><code>string</code></td><td>Identifiant du filtre</td></tr>
               <tr><td><code>label</code></td><td><code>string</code></td><td>Libellé affiché</td></tr>
               <tr><td><code>type</code></td><td><code>'select' | 'text' | 'date' | 'range' | 'checkbox'</code></td><td>Type de contrôle</td></tr>
-              <tr><td><code>values</code></td><td><code>string[]</code></td><td>Valeurs disponibles (pour select et checkbox)</td></tr>
+              <tr><td><code>options</code></td><td><code>string[]</code></td><td>Valeurs disponibles (pour select et checkbox)</td></tr>
             </tbody>
           </table>
           <p style="margin-top:1rem"><strong>Événements émis</strong></p>
@@ -504,49 +504,43 @@ const mapPreviewData = [
 // ── Code snippets ─────────────────────────────────────────────
 
 const chartDataExample = `// Exemple de données
-[
-  { mois: "Janvier", ventes: 1200 },
-  { mois: "Février", ventes: 1500 },
-  { mois: "Mars",    ventes: 1800 }
-]`;
-
-const chartMinimalCode = `<script setup>
-import { ChartWidget } from "@krim24/vue-sdk";
-
-const chartWidget = {
-  options: {
-    label: "Évolution mensuelle",
-    type: "bar",
-    xKey: "mois",
-    yKey: "ventes"
-  },
-  data: [
-    { mois: "Janvier", ventes: 1200 },
-    { mois: "Février", ventes: 1500 },
-    { mois: "Mars",    ventes: 1800 }
+{
+  labels: ["Janvier", "Février", "Mars"],
+  datasets: [
+    { label: "Ventes (€)", data: [1200, 1500, 1800] }
   ]
-};
-<\/script>
+}`;
 
-<template>
-  <ChartWidget :options="chartWidget.options" :data="chartWidget.data" />
+const chartMinimalCode = `<template>
+  <ChartWidget
+    title="Évolution mensuelle"
+    :options="{
+      chartType: 'bar',
+      xLabel: 'Mois',
+      yLabel: 'Ventes (€)'
+    }"
+    :data="{
+      labels: ['Janvier', 'Février', 'Mars'],
+      datasets: [{ label: 'Ventes (€)', data: [1200, 1500, 1800] }]
+    }"
+  />
 </template>`;
 
 const kpiDataExample = `// Exemple de données
 { ventes: 1200 }`;
 
-const kpiMinimalCode = `<script setup>
-import { KPIWidget } from "@krim24/vue-sdk";
-
-const kpiData = {
-  value: 1200,
-  unit: "€",
-  label: "Ventes mensuelles"
-};
-<\/script>
-
-<template>
-  <KPIWidget title="Ventes mensuelles" :data="kpiData" />
+const kpiMinimalCode = `<template>
+  <KPIWidget
+    title="Ventes mensuelles"
+    :data="{
+      value: 1200,
+      unit: '€',
+      trend: 8.4,
+      trendLabel: 'vs mois dernier',
+      icon: 'fa-solid:money-bill-wave',
+      color: '#6366f1'
+    }"
+  />
 </template>`;
 
 const tableDataExample = `// Exemple de données
@@ -556,126 +550,92 @@ const tableDataExample = `// Exemple de données
   { mois: "Mars",    ventes: 1800 }
 ]`;
 
-const tableMinimalCode = `<script setup>
-import { TableWidget } from "@krim24/vue-sdk";
-
-const tableWidget = {
-  options: {
-    columns: [
-      { key: "mois",   label: "Mois" },
-      { key: "ventes", label: "Ventes (€)" }
-    ]
-  },
-  data: [
-    { mois: "Janvier", ventes: 1200 },
-    { mois: "Février", ventes: 1500 },
-    { mois: "Mars",    ventes: 1800 }
-  ]
-};
-<\/script>
-
-<template>
-  <TableWidget :options="tableWidget.options" :data="tableWidget.data" />
+const tableMinimalCode = `<template>
+  <TableWidget
+    title="Ventes par mois"
+    :options="{
+      columns: [
+        { key: 'mois',   label: 'Mois' },
+        { key: 'ventes', label: 'Ventes (€)' }
+      ],
+      striped: true,
+      searchable: true
+    }"
+    :data="[
+      { mois: 'Janvier', ventes: 1200 },
+      { mois: 'Février', ventes: 1500 },
+      { mois: 'Mars',    ventes: 1800 }
+    ]"
+  />
 </template>`;
 
 const gaugeDataExample = `// Exemple de données
 { value: 65 }`;
 
-const gaugeMinimalCode = `<script setup>
-import { GaugeWidget } from "@krim24/vue-sdk";
-
-const gaugeWidget = {
-  options: {
-    label: "Progression",
-    min: 0,
-    max: 100,
-    unit: "%",
-    color: "green"
-  },
-  data: { value: 65 }
-};
-<\/script>
-
-<template>
-  <GaugeWidget :options="gaugeWidget.options" :data="gaugeWidget.data" />
-</template>`;
-
-const timelineMinimalCode = `<script setup>
-import { TimelineWidget } from "@krim24/vue-sdk";
-
-const timelineWidget = {
-  options: {
-    orientation: "vertical",
-    label: "Évolution du projet"
-  },
-  data: [
-    { id: "1", date: "Janvier 2024", title: "Lancement du projet",
-      description: "Démarrage officiel", status: "done" },
-    { id: "2", date: "Mars 2024",    title: "Première version en prod",
-      description: "Déploiement v1.0", status: "done" },
-    { id: "3", date: "Juin 2024",    title: "Nouvelles fonctionnalités",
-      description: "Map + Gauge ajoutés", status: "active" }
-  ]
-};
-<\/script>
-
-<template>
-  <TimelineWidget :options="timelineWidget.options" :data="timelineWidget.data" />
-</template>`;
-
-const filterMinimalCode = `<script setup>
-import { FilterWidget } from "@krim24/vue-sdk";
-
-const filterWidget = {
-  options: {
-    filters: [
-      { key: "mois",   label: "Mois",   type: "select",
-        values: ["Janvier", "Février", "Mars"] },
-      { key: "region", label: "Région", type: "select",
-        values: ["Europe", "Asie", "Amérique"] }
-    ]
-  }
-};
-
-function handleFilterChange(newValues) {
-  console.log("Filtres appliqués :", newValues);
-}
-<\/script>
-
-<template>
-  <FilterWidget
-    :options="filterWidget.options"
-    @change="handleFilterChange"
-    @apply="handleFilterChange"
+const gaugeMinimalCode = `<template>
+  <GaugeWidget
+    title="Progression"
+    :data="{
+      value: 65,
+      min: 0,
+      max: 100,
+      unit: '%',
+      thresholds: [
+        { value: 50,  color: '#ef4444', label: 'Bas' },
+        { value: 75,  color: '#f59e0b', label: 'Moyen' },
+        { value: 100, color: '#10b981', label: 'Élevé' }
+      ]
+    }"
   />
 </template>`;
 
-const mapMinimalCode = `<script setup>
-import { MapWidget } from "@krim24/vue-sdk";
+const timelineMinimalCode = `<template>
+  <TimelineWidget
+    title="Évolution du projet"
+    :data="[
+      { id: '1', date: 'Janvier 2024', title: 'Lancement',
+        description: 'Démarrage officiel', status: 'done',   icon: 'fa-solid:rocket' },
+      { id: '2', date: 'Mars 2024',    title: 'Mise en prod',
+        description: 'Déploiement v1.0', status: 'done',   icon: 'fa-solid:check-circle' },
+      { id: '3', date: 'Juin 2024',    title: 'Nouvelles fonc',
+        description: 'Map + Gauge ajoutés', status: 'active', icon: 'fa-solid:bolt' }
+    ]"
+  />
+</template>`;
 
-const mapWidget = {
-  options: {
-    zoom: 5,
-    center: { lat: 48.8566, lng: 2.3522 },
-    mapType: "standard"
-  },
-  data: [
-    { id: "paris",   label: "Paris",   value: 42000,
-      lat: 48.8566, lng:  2.3522, color: "#6366f1" },
-    { id: "londres", label: "Londres", value: 31000,
-      lat: 51.5074, lng: -0.1278, color: "#22d3ee" }
-  ]
-};
-<\/script>
+const filterMinimalCode = `<template>
+  <FilterWidget
+    title="Filtres"
+    :options="{
+      filters: [
+        { key: 'mois',   label: 'Mois',   type: 'select',
+          options: ['Janvier', 'Février', 'Mars'] },
+        { key: 'region', label: 'Région', type: 'select',
+          options: ['Europe', 'Asie', 'Amérique'] }
+      ]
+    }"
+    @change="(values) => console.log(values)"
+    @apply="(values) => console.log(values)"
+  />
+</template>`;
 
-<template>
-  <MapWidget :options="mapWidget.options" :data="mapWidget.data" />
+const mapMinimalCode = `<template>
+  <MapWidget
+    title="Ventes par région"
+    :options="{ zoom: 5, center: { lat: 48.8566, lng: 2.3522 } }"
+    :data="[
+      { id: 'paris',   label: 'Paris',   value: 42000,
+        lat: 48.8566, lng:  2.3522, color: '#6366f1' },
+      { id: 'londres', label: 'Londres', value: 31000,
+        lat: 51.5074, lng: -0.1278, color: '#22d3ee' }
+    ]"
+  />
 </template>`;
 
 const pluginCode = `// main.ts
 import { createApp } from 'vue'
 import { VueSdk } from '@krim24/vue-sdk'
-import '@krim24/vue-sdk/dist/vue-sdk.css'
+import '@krim24/vue-sdk/dist/vue-sdk.css'  // styles des widgets
 import App from './App.vue'
 
 const app = createApp(App)
