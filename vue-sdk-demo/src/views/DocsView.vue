@@ -39,7 +39,7 @@
           <div class="doc-badge">Démarrage</div>
           <h2>Installation</h2>
           <p>Installez le SDK et ses dépendances nécessaires :</p>
-          <div class="code-block"><pre>npm install vue-sdk vue chart.js vue-chartjs ajv vue-router</pre></div>
+          <div class="code-block"><pre>npm install @krim24/vue-sdk vue chart.js vue-chartjs ajv</pre></div>
           <h3>Dépendances requises</h3>
           <ul>
             <li><code>vue@^3.5</code> — Vue 3 Composition API</li>
