@@ -36,12 +36,14 @@ npm install @krim24/vue-sdk vue chart.js vue-chartjs ajv
 
 ```ts
 // main.ts
+// main.ts
 import { createApp } from 'vue'
 import { VueSdk } from '@krim24/vue-sdk'
+import '@krim24/vue-sdk/dist/vue-sdk.css'  // ← important pour les styles
 import App from './App.vue'
 
 const app = createApp(App)
-app.use(VueSdk) // enregistre tous les composants globalement
+app.use(VueSdk) //enrégistre tous les composants globalement
 app.mount('#app')
 ```
 

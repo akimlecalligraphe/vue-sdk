@@ -1,3 +1,4 @@
+import './style.css';
 import type { App } from "vue";
 import { createVueSdk, registerWidget } from "./core/engine";
 

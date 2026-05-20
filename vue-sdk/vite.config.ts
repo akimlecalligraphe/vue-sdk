@@ -1,18 +1,19 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import dts from "vite-plugin-dts";  // ← ajoute cet import
+import dts from "vite-plugin-dts";
 import { resolve } from "path";
 
 export default defineConfig({
   plugins: [
     vue(),
-    dts({                            // ← ajoute ce plugin
+    dts({
       include: ["src/**/*.ts", "src/**/*.vue"],
       outDir: "dist",
-      insertTypesEntry: true,        // génère un index.d.ts à la racine de dist/
+      insertTypesEntry: true,
     }),
   ],
   build: {
+    cssCodeSplit: false,   // ← ajoute cette ligne
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "VueSdk",

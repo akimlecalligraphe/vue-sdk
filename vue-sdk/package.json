@@ -1,6 +1,6 @@
 {
   "name": "@krim24/vue-sdk",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "A Vue 3 SDK for building dynamic dashboards with widgets and templates",
   "type": "module",
   "main": "./dist/vue-sdk.umd.cjs",
@@ -9,7 +9,8 @@
     ".": {
       "import": "./dist/vue-sdk.js",
       "require": "./dist/vue-sdk.umd.cjs"
-    }
+    },
+    "./dist/vue-sdk.css": "./dist/vue-sdk.css"
   },
   "types": "./dist/index.d.ts",
   "files": [
