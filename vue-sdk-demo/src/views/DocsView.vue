@@ -39,7 +39,7 @@
           <div class="doc-badge">Démarrage</div>
           <h2>Installation</h2>
           <p>Installez le SDK et ses dépendances nécessaires :</p>
-          <div class="code-block"><pre>npm install @krim24/vue-sdk vue chart.js vue-chartjs ajv</pre></div>
+          <div class="code-block"><pre>npm install vue-sdk vue chart.js vue-chartjs ajv vue-router</pre></div>
           <h3>Dépendances requises</h3>
           <ul>
             <li><code>vue@^3.5</code> — Vue 3 Composition API</li>
@@ -456,7 +456,7 @@
 <script setup lang="ts">
 import IconifyIcon from "../components/IconifyIcon.vue";
 import { ref } from "vue";
-import { ChartWidget, KPIWidget, TableWidget, GaugeWidget, TimelineWidget, FilterWidget, MapWidget } from "@workspace/vue-sdk";
+import { ChartWidget, KPIWidget, TableWidget, GaugeWidget, TimelineWidget, FilterWidget, MapWidget } from "@krim24/vue-sdk";
 
 const activeSection = ref("chart");
 
@@ -511,7 +511,7 @@ const chartDataExample = `// Exemple de données
 ]`;
 
 const chartMinimalCode = `<script setup>
-import Chart from "vue-sdk/components/Chart.vue";
+import { ChartWidget } from "@krim24/vue-sdk";
 
 const chartWidget = {
   options: {
@@ -529,27 +529,24 @@ const chartWidget = {
 <\/script>
 
 <template>
-  <Chart :widget="chartWidget" :data="chartWidget.data" />
+  <ChartWidget :options="chartWidget.options" :data="chartWidget.data" />
 </template>`;
 
 const kpiDataExample = `// Exemple de données
 { ventes: 1200 }`;
 
 const kpiMinimalCode = `<script setup>
-import KPI from "vue-sdk/components/KPI.vue";
+import { KPIWidget } from "@krim24/vue-sdk";
 
-const kpiWidget = {
-  options: {
-    label: "Ventes mensuelles",
-    unit: "€",
-    valueKey: "ventes"
-  },
-  data: { ventes: 1200 }
+const kpiData = {
+  value: 1200,
+  unit: "€",
+  label: "Ventes mensuelles"
 };
 <\/script>
 
 <template>
-  <KPI :widget="kpiWidget" :data="kpiWidget.data" />
+  <KPIWidget title="Ventes mensuelles" :data="kpiData" />
 </template>`;
 
 const tableDataExample = `// Exemple de données
@@ -560,7 +557,7 @@ const tableDataExample = `// Exemple de données
 ]`;
 
 const tableMinimalCode = `<script setup>
-import Table from "vue-sdk/components/Table.vue";
+import { TableWidget } from "@krim24/vue-sdk";
 
 const tableWidget = {
   options: {
@@ -578,14 +575,14 @@ const tableWidget = {
 <\/script>
 
 <template>
-  <Table :widget="tableWidget" :data="tableWidget.data" />
+  <TableWidget :options="tableWidget.options" :data="tableWidget.data" />
 </template>`;
 
 const gaugeDataExample = `// Exemple de données
 { value: 65 }`;
 
 const gaugeMinimalCode = `<script setup>
-import Gauge from "vue-sdk/components/Gauge.vue";
+import { GaugeWidget } from "@krim24/vue-sdk";
 
 const gaugeWidget = {
   options: {
@@ -600,11 +597,11 @@ const gaugeWidget = {
 <\/script>
 
 <template>
-  <Gauge :widget="gaugeWidget" :data="gaugeWidget.data" />
+  <GaugeWidget :options="gaugeWidget.options" :data="gaugeWidget.data" />
 </template>`;
 
 const timelineMinimalCode = `<script setup>
-import Timeline from "vue-sdk/components/Timeline.vue";
+import { TimelineWidget } from "@krim24/vue-sdk";
 
 const timelineWidget = {
   options: {
@@ -623,11 +620,11 @@ const timelineWidget = {
 <\/script>
 
 <template>
-  <Timeline :widget="timelineWidget" :data="timelineWidget.data" />
+  <TimelineWidget :options="timelineWidget.options" :data="timelineWidget.data" />
 </template>`;
 
 const filterMinimalCode = `<script setup>
-import Filter from "vue-sdk/components/Filter.vue";
+import { FilterWidget } from "@krim24/vue-sdk";
 
 const filterWidget = {
   options: {
@@ -646,15 +643,15 @@ function handleFilterChange(newValues) {
 <\/script>
 
 <template>
-  <Filter
-    :widget="filterWidget"
+  <FilterWidget
+    :options="filterWidget.options"
     @change="handleFilterChange"
     @apply="handleFilterChange"
   />
 </template>`;
 
 const mapMinimalCode = `<script setup>
-import Map from "vue-sdk/components/Map.vue";
+import { MapWidget } from "@krim24/vue-sdk";
 
 const mapWidget = {
   options: {
@@ -672,19 +669,20 @@ const mapWidget = {
 <\/script>
 
 <template>
-  <Map :widget="mapWidget" :data="mapWidget.data" />
+  <MapWidget :options="mapWidget.options" :data="mapWidget.data" />
 </template>`;
 
 const pluginCode = `// main.ts
 import { createApp } from 'vue'
-import { VueSdk } from 'vue-sdk'
+import { VueSdk } from '@krim24/vue-sdk'
+import '@krim24/vue-sdk/dist/vue-sdk.css'
 import App from './App.vue'
 
 const app = createApp(App)
 app.use(VueSdk)   // enregistre tous les composants globalement
 app.mount('#app')`;
 
-const jsonEngineCode = `import { Dashboard, parseDashboardConfig } from 'vue-sdk'
+const jsonEngineCode = `import { Dashboard, parseDashboardConfig } from '@krim24/vue-sdk'
 
 const config = parseDashboardConfig({
   id: 'mon-dashboard',
@@ -706,7 +704,7 @@ const config = parseDashboardConfig({
   ]
 })`;
 
-const dataLayerCode = `import { registerDataSource, getData } from 'vue-sdk'
+const dataLayerCode = `import { registerDataSource, getData } from '@krim24/vue-sdk'
 
 // Enregistrer un endpoint REST
 registerDataSource({
@@ -721,7 +719,7 @@ registerDataSource({
 // Récupérer les données et les passer à un widget
 const data = await getData('api-ventes')`;
 
-const validatorCode = `import { validate, assertValid, validateWidgetConfig } from 'vue-sdk'
+const validatorCode = `import { validate, assertValid, validateWidgetConfig } from '@krim24/vue-sdk'
 
 // Vérifier la validité
 const result = validate('chart', maConfig)
